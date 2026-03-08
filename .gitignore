@@ -1,0 +1,146 @@
+# ============= #
+# Unity 项目    #
+# ============= #
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# 内存分析器
+[Mm]emoryCaptures/
+
+# 资源包（包含资源包缓存、下载和临时数据）
+[Aa]ssetStoreTools*
+
+# Visual Studio/MonoDevelop 生成文件
+[Ee]xported[Oo]bj/
+
+# VS 项目文件
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# Unity3D 生成的 Visual Studio 文件
+*.pidb.meta
+
+# Unity3D 生成的 macOS 文件
+*.DS_Store*
+
+# Unity3D 生成的 Android 文件
+*.apk
+*.aab
+
+# Unity3D 生成的 iOS 文件
+*.ipa
+*.p12
+*.mobileprovision
+*.xcent
+
+# 自动生成的 Unity 元文件
+*/[Aa]ssets/[Aa]ssetStoreTools*
+
+# 第三方插件/库
+*/[Aa]ssets/[Pp]lugins/*.meta
+
+# 项目设置
+[Pp]rojectSettings/PackageManagerSettings.json
+
+# ============= #
+# OS 生成文件   #
+# ============= #
+
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+
+# Linux
+*~
+
+# ============= #
+# 包管理        #
+# ============= #
+
+# 内置包缓存
+/[Pp]ackages/
+
+# ============= #
+# 编辑器缓存    #
+# ============= #
+
+# Unity 包管理器缓存
+Library/PackageCache/
+Library/StateCache/
+Library/AssetDatabase/
+Library/ShaderCache/
+
+# ============= #
+# 自动忽略文件  #
+# ============= #
+
+# 不要忽略 .meta 文件
+!*.meta
+
+# 不要忽略必要的资源文件
+!*.unity
+!*.prefab
+!*.mat
+!*.asset
+!*.controller
+!*.anim
+!*.physicMaterial
+!*.physicsMaterial2D
+!*.spriteatlas
+!*.spriteatlasv2
+!*.renderTexture
+!*.cubemap
+!*.flare
+!*.fontsettings
+!*.guiskin
+!*.mask
+!*.mixer
+!*.shadervariants
+!*.terrainlayer
+!*.brush
+!*.colors
+!*.gradients
+!*.curves
+!*.curvesNormalized
+
+# 不要忽略必要的脚本文件
+!*.cs
+!*.js
+!*.shader
+!*.compute
+!*.cginc
+!*.hlsl
+
+# 不要忽略必要的配置文件
+!*.json
+!*.xml
+!*.txt
+!*.md
+!*.yaml
+!*.yml
+
+# ============= #
+# 特殊文件      #
+# ============= #
+
+# 不要上传敏感信息
+*.private
+*.secret
+config.json
+.env
