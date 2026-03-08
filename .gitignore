@@ -1,4 +1,4 @@
-# ============= #
+﻿# ============= #
 # Unity 项目    #
 # ============= #
 
@@ -29,6 +29,20 @@
 *.userprefs
 *.pidb
 *.booproj
+
+# Visual Studio 缓存
+.vs/
+*.vsidx
+# Unity 编译与缓存
+Library/
+Temp/
+obj/
+bin/
+*.sln.docstates
+# 编译缓存
+*.AssemblyReference.cache
+DesignTimeResolveAssemblyReferencesInput.cache
+
 
 # Unity3D 生成的 Visual Studio 文件
 *.pidb.meta

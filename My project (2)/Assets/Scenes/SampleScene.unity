@@ -6828,9 +6828,9 @@ GameObject:
   - component: {fileID: 1885769762}
   - component: {fileID: 1885769761}
   - component: {fileID: 1885769760}
-  - component: {fileID: 1885769759}
   - component: {fileID: 1885769763}
   - component: {fileID: 1885769764}
+  - component: {fileID: 1885769765}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -6838,29 +6838,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1885769759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885769758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb60b6dfde379fb4baaabad258b27235, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ropeDefaultLength: 2
-  ropeForce: 15
-  playerSize: 1
-  defaultPlayerSprite: {fileID: 0}
-  shapeChangeDelay: 0.5
-  linkDurationThreshold: 1
-  sizeReductionPerSecond: 0.1
-  minPlayerSize: 0.3
-  shrinkAnimationSpeed: 2
-  groundTag: Ground
-  wallTag: Wall
 --- !u!50 &1885769760
 Rigidbody2D:
   serializedVersion: 4
@@ -7105,6 +7082,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1885769765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1885769758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb60b6dfde379fb4baaabad258b27235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ropeDefaultLength: 2
+  ropeForce: 15
+  playerSize: 1
+  defaultPlayerSprite: {fileID: 0}
+  shapeChangeDelay: 0.5
+  linkDurationThreshold: 1
+  sizeReductionPerSecond: 0.1
+  minPlayerSize: 0.9
+  shrinkAnimationSpeed: 2
+  groundTag: Ground
+  wallTag: Wall
 --- !u!1 &1892507663
 GameObject:
   m_ObjectHideFlags: 0
