@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 {"msg":"init","dagFile":"Library/Bee/1900b0aE.dag","targets":["ScriptAssemblies"]}
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"ScriptAssemblies","enqueuedNodeIndex":6}
 {"msg":"enqueueNode","enqueuedNodeAnnotation":"MovedFromExtractor Library/Bee/artifacts/mvdfrm/UnityEditor.Graphs.dll_E5B2322A0FE12C19.mvfrm","enqueuedNodeIndex":5,"enqueueingNodeAnnotation":"ScriptAssemblies","enqueueingNodeIndex":6}
@@ -813,3 +815,4 @@
 {"msg":"inputSignatureChanged","annotation":"CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll","index":798,"changes":[{"key":"FileList","value":["Library\\Bee\\artifacts\\1900b0aE.dag\\post-processed\\Assembly-CSharp.dll"],"oldvalue":[],"dependency":"explicit"}]}
 {"msg":"runNodeAction","annotation":"CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll","displayName":"Copying Assembly-CSharp.dll","index":798}
 {"msg":"noderesult","processed_node_count":797,"number_of_nodes_ever_queued":799,"annotation":"CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll","index":798,"exitcode":0,"outputfile":"Library\\ScriptAssemblies\\Assembly-CSharp.dll"}
+>>>>>>> cdb01e5653671b0296a27ece741a5cf064774f50
