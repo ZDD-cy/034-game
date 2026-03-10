@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.Rendering.Universal;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Reflection;
 
 public static class ShadowCaster2DTilemapGenerator
 {
@@ -37,24 +38,19 @@ public static class ShadowCaster2DTilemapGenerator
                 Debug.LogWarning("Tilemap " + tilemap.name + " 的 CompositeCollider2D 路径数量为 0，请检查碰撞体设置。");
                 continue;
             }
-
-            // 安全删除之前生成的 ShadowCaster2D 子物体
+                       // 安全删除旧的 ShadowCaster2D 子物体
             ShadowCaster2D[] oldCasters = tilemap.GetComponentsInChildren<ShadowCaster2D>();
             if (oldCasters.Length > 0)
             {
                 Debug.Log("正在删除 " + oldCasters.Length + " 个旧的 ShadowCaster2D...");
                 List<GameObject> toDestroy = new List<GameObject>();
                 foreach (var caster in oldCasters)
-                {
                     toDestroy.Add(caster.gameObject);
-                }
                 foreach (var go in toDestroy)
-                {
                     GameObject.DestroyImmediate(go);
-                }
             }
 
-            Vector3 tilemapWorldPos = tilemap.transform.position; // 用于坐标转换
+            Vector3 tilemapWorldPos = tilemap.transform.position;
 
             for (int i = 0; i < composite.pathCount; i++)
             {
@@ -70,13 +66,7 @@ public static class ShadowCaster2DTilemapGenerator
                     continue;
                 }
 
-                // 打印第一个点调试
-                if (points2D.Length > 0)
-                {
-                    Debug.Log($"路径 {i} 第一个点 (世界坐标): ({points2D[0].x}, {points2D[0].y})");
-                }
-
-                // 将世界坐标转换为相对于 Tilemap 的局部坐标
+                // 转换为局部坐标
                 Vector3[] points3D = new Vector3[pointCount];
                 for (int j = 0; j < pointCount; j++)
                 {
@@ -86,43 +76,92 @@ public static class ShadowCaster2DTilemapGenerator
                         0f);
                 }
 
-                // 创建子物体
                 GameObject go = new GameObject("ShadowCaster2D_" + i);
                 go.transform.parent = tilemap.transform;
-                go.transform.localPosition = Vector3.zero; // 子物体位于 Tilemap 原点，轮廓通过路径定义
+                go.transform.localPosition = Vector3.zero;
                 go.transform.localRotation = Quaternion.identity;
                 go.transform.localScale = Vector3.one;
 
                 ShadowCaster2D caster = go.AddComponent<ShadowCaster2D>();
-                bool success = SetShadowCasterPath(caster, points3D);
-
-                if (success)
-                {
-                    // 强制刷新组件
-                    caster.enabled = false;
-                    caster.enabled = true;
-                    Debug.Log($"路径 {i} 设置成功。");
-                }
-                else
-                {
-                    Debug.LogError($"路径 {i} 设置失败。");
-                }
+                ForceSetShadowPath(caster, points3D);
             }
         }
+
+        // 延迟一帧执行全局刷新（确保所有组件初始化完成）
+        EditorApplication.delayCall += () => {
+            ShadowCaster2D[] allCasters = GameObject.FindObjectsOfType<ShadowCaster2D>();
+            foreach (var c in allCasters)
+            {
+                if (c != null)
+                {
+                    // 切换 enabled 触发 OnEnable
+                    c.enabled = false;
+                    c.enabled = true;
+
+                    // 尝试调用内部更新方法
+                    ForceRefreshShadowCaster(c);
+                }
+            }
+            // 强制场景视图重绘
+            SceneView.RepaintAll();
+            Debug.Log("延迟刷新完成。");
+        };
 
         Debug.Log("===== ShadowCaster2D 生成完成 =====");
     }
 
-    static bool SetShadowCasterPath(ShadowCaster2D caster, Vector3[] points)
+    static void ForceSetShadowPath(ShadowCaster2D caster, Vector3[] points)
     {
+        // 方法1：通过 SerializedObject 设置路径（确保数据被标记为 dirty）
+        SerializedObject so = new SerializedObject(caster);
+        SerializedProperty prop = so.FindProperty("m_ShapePath");
+        if (prop == null)
+        {
+            Debug.LogError("无法找到 SerializedProperty m_ShapePath");
+            return;
+        }
+
+        prop.arraySize = points.Length;
+        for (int i = 0; i < points.Length; i++)
+        {
+            prop.GetArrayElementAtIndex(i).vector3Value = points[i];
+        }
+        so.ApplyModifiedProperties();
+
+        // 方法2：反射设置字段（双重保险）
         System.Type type = caster.GetType();
-        System.Reflection.FieldInfo field = type.GetField("m_ShapePath",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        FieldInfo field = type.GetField("m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance);
         if (field != null)
         {
             field.SetValue(caster, points);
-            return true;
+        }
+
+        // 方法3：强制调用内部更新方法
+        ForceRefreshShadowCaster(caster);
+    }
+
+    static void ForceRefreshShadowCaster(ShadowCaster2D caster)
+    {
+        if (caster == null) return;
+
+        System.Type type = caster.GetType();
+        const BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Instance;
+
+        // 尝试调用 UpdateGeometry（如果存在）
+        MethodInfo updateGeo = type.GetMethod("UpdateGeometry", flags);
+        if (updateGeo != null)
+        {
+            updateGeo.Invoke(caster, null);
         }
         else
         {
-            Debug.LogError("无法获取 ShadowCaster2D 的 m_Shap
+            // 否则尝试 OnEnable
+            MethodInfo onEnable = type.GetMethod("OnEnable", flags);
+            onEnable?.Invoke(caster, null);
+        }
+
+        // 切换 enabled 确保 OnEnable 被调用
+        caster.enabled = false;
+        caster.enabled = true;
+    }
+}
