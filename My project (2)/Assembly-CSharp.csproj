@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Assets\Linkable Target.cs" />
     <Compile Include="Assets\LinkController.cs" />
+    <Compile Include="Assets\Shadows-1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
